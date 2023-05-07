@@ -1,9 +1,20 @@
 import fs from 'fs'
 
 const roadmapToFetch = process.argv[2]
+const roadmapType = process.argv[3]
 
 if(! roadmapToFetch){
     console.error("please provide a roadmap name to fetch modules for")
+    process.exit(0)
+}
+
+if(! roadmapType){
+    console.error("please provide the roadmap type e.g. Role based, Skill based, Best practice")
+    process.exit(0)
+}
+
+if(! ["Role based", "Skill based", "Best practice"].includes(roadmapType)){
+    console.error("Invalid value for rroadmap type. accepted value ->Role based, Skill based, Best practice")
     process.exit(0)
 }
 
@@ -83,16 +94,16 @@ const generateTasksAndResourcesFromRawTasks = (raw_tasks) => {
     }))
 }
 
-const generateModulesFromRawData = (raw_modules, org_department_id, roadmapName) => {
+const generateModulesFromRawData = (raw_modules, org_department_id, roadmapName, type) => {
     const parsedModules = []
     Object.keys(raw_modules).forEach((raw_module) => {
         const module = {
             name: raw_module,
             org_department_id,
-            category: "General",
+            category: "Department Mandatory",
             description: "" ,
-            priority: "High",
-            tags: [roadmapName],
+            priority: "Medium",
+            tags: [type ,roadmapName],
             is_validation_required: false,
             is_active: true,
             tasks: [],
@@ -114,9 +125,11 @@ const generateModulesFromRawData = (raw_modules, org_department_id, roadmapName)
     return parsedModules
 }
 
-let engineering_department_id = "97cc7f9a-b562-4124-b04e-a4dc5db8bed8"
+let engineering_department_id = "4bda750d-530a-43b9-bbd7-dd6a8d9e4dc2"
+
 try{
-    const modules = generateModulesFromRawData(raw_modules,engineering_department_id,roadmapToFetch)
+    const modules = generateModulesFromRawData(raw_modules,engineering_department_id,roadmapToFetch, roadmapType)
+
     fs.writeFileSync(`${roadmapToFetch}-modules.json`, JSON.stringify(modules))
 }catch(err){
     console.error(err)
