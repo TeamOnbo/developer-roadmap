@@ -2,7 +2,8 @@
 
 * Go to `parser` branch
 * Go to `parser.js` file in root directory. Change the variable `97cc7f9a-b562-4124-b04e-a4dc5db8bed8` according to organization org_department_id for engineering
-* Just run `node ./parser.js {roadmapName}` 
+* Just run `node ./parser.js {roadmapName} {roadmapType}`
+* `roadmapType` allowed values are `Role based, Skill based, Best practice`. You can find that on roadmap.sh 
 * e.g. `node parser.js frontend`
 * It will create all modules with tasks and resources in `{roadmapName-modules.json} file`
 * Minify the json before passing it in our panel. Use [https://codebeautify.org/jsonminifier](https://codebeautify.org/jsonminifier)
