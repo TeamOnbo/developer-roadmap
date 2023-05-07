@@ -94,11 +94,16 @@ const generateTasksAndResourcesFromRawTasks = (raw_tasks) => {
     }))
 }
 
+const capitalizeName = (str) => {
+    const arr = str.split(" ");
+    return arr.reduce((prev,curr,index)=>prev+ (index === 0 ? "": " " )+ (curr.charAt(0).toUpperCase() + curr.slice(1)),"")
+}
+
 const generateModulesFromRawData = (raw_modules, org_department_id, roadmapName, type) => {
     const parsedModules = []
     Object.keys(raw_modules).forEach((raw_module) => {
         const module = {
-            name: raw_module,
+            name: capitalizeName(raw_module),
             org_department_id,
             category: "Department Mandatory",
             description: "" ,
